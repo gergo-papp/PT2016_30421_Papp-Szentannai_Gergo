@@ -194,7 +194,7 @@ public class MainFrame extends JFrame {
 		integrateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				unaryOperator = new Integrate();
-				App.printer.printStatus("Integration");
+				App.printer.printStatus("Integration (warinng, fractions are rounded!)");
 				unaryCompute();
 			}
 		});

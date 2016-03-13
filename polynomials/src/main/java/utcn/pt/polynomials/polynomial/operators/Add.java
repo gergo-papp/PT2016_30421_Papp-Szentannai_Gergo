@@ -15,7 +15,9 @@ public class Add implements BinaryOperator {
 			coeff[i] = A.getCoeff(i) + B.getCoeff(i);
 		}
 		
-		return new Polynom(coeff);
+		Polynom P = new Polynom(coeff);
+		P.removeZeroMonoms();
+		return P;
 	}
 
 	/**

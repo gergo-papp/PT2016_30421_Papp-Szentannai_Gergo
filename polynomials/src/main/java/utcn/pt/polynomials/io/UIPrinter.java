@@ -7,23 +7,24 @@ public class UIPrinter implements Printer {
 
 	public void printPolynom(Polynom P) {
 		String outputString = new String();
-		
+
 		P.sort();
-		for (int i=0;i<P.getNrOfMonoms();i++){
-			if (P.getMonom(i)[1]>=0)
-				outputString+="+";
-			outputString+=P.getMonom(i)[1];
-			outputString+="x^";
-			outputString+=P.getMonom(i)[0];
-			outputString+=" ";
+		for (int i = 0; i < P.getNrOfMonoms(); i++) {
+			if (P.getMonom(i)[1] >= 0)
+				outputString += "+";
+			outputString += P.getMonom(i)[1];
+			outputString += "x^";
+			outputString += P.getMonom(i)[0];
+			outputString += " ";
 		}
-		
+		if (outputString.length() == 0)
+			outputString = "0";
 		App.myFrame.setResult(outputString);
 	}
 
 	public void printStatus(String s) {
 		App.myFrame.setStatus(s);
-		
+
 	}
 
 }

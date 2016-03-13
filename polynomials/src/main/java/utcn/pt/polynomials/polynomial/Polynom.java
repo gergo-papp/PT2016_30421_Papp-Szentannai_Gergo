@@ -148,4 +148,12 @@ public class Polynom {
 			}
 		}
 	}
+
+	/**
+	 * Adds elements having the same power. For example 3x^2 +4x^2 becomes 7x^2.
+	 */
+	public void combineMonomsWithSamePower() {
+		// TODO Auto-generated method stub
+
+	}
 }
