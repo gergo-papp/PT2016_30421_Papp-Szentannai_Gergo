@@ -30,7 +30,7 @@ public class MainFrame extends JFrame {
 
 	private JPanel panel, panelA, panelB, panelOperators, panelResult, panelBottom;
 	private JButton addButton, substractButton, multiplyButton, divideButton, derivateButton, integrateButton,
-			closeButton;
+			exampleButton;
 	private JTextField A, B, Result, Status, aTextField, bTextField, resultTextField, statusTextField;
 	private Dimension rowNameSize = new Dimension(45, 30);
 
@@ -180,7 +180,7 @@ public class MainFrame extends JFrame {
 		divideButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				binaryOperator = new Divide();
-				App.printer.printStatus("Division");
+				App.printer.printStatus("Division - not implemented!");
 				binaryCompute();
 			}
 		});
@@ -194,7 +194,7 @@ public class MainFrame extends JFrame {
 		integrateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				unaryOperator = new Integrate();
-				App.printer.printStatus("Integration (warinng, fractions are rounded!)");
+				App.printer.printStatus("Integration (fractions are rounded, result might be 0!)");
 				unaryCompute();
 			}
 		});
@@ -243,8 +243,17 @@ public class MainFrame extends JFrame {
 		panelBottom.add(statusTextField);
 
 		panelBottom.add(Box.createRigidArea(new Dimension(5, 0)));
-		closeButton = new JButton("Close");
-		panelBottom.add(closeButton);
+		exampleButton = new JButton("Example");
+		panelBottom.add(exampleButton);
+		
+		// Help button action:
+		exampleButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				aTextField.setText("1x^2 +3x^4 -2x^6 +8x^8");
+				bTextField.setText("2x^1 -11x^12");
+			}
+		});
+		
 	}
 
 	private void combineAllPanels() {
