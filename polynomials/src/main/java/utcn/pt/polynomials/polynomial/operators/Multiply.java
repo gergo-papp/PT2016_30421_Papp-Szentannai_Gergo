@@ -40,7 +40,7 @@ public class Multiply implements BinaryOperator {
 				temp[1] = monomToBeAdded[0];
 				temp[0] = monomToBeAdded[1];
 
-				if (temp[1] != 0)
+				if (temp[0] != 0)///////////////////////////////////
 					newCoefficients.add(temp);
 			}
 		}
@@ -54,7 +54,7 @@ public class Multiply implements BinaryOperator {
 		}
 
 		Polynom P = new Polynom(newCoefficients.toArray(tempArray));
-		P.combineMonomsWithSamePower();
+		//return P.combineMonomsWithSamePower();
 		return P;
 	}
 

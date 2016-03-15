@@ -152,8 +152,20 @@ public class Polynom {
 	/**
 	 * Adds elements having the same power. For example 3x^2 +4x^2 becomes 7x^2.
 	 */
-	public void combineMonomsWithSamePower() {
+	public Polynom combineMonomsWithSamePower() {
 		// TODO Auto-generated method stub
+		int currentPower;
+		int HighestPower = getGrade();
+		int[] newMonoms = new int[HighestPower + 1];
+		for (int i = 0; i < newMonoms.length; i++) {
+			newMonoms[i] = 0;
+		}
 
+		for (int i = 0; i < getNrOfMonoms(); i++) {
+			currentPower = getMonom(i)[0];
+			newMonoms[currentPower] = +getMonom(i)[1];
+		}
+		Polynom P = new Polynom(newMonoms);
+		return P;
 	}
 }

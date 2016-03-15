@@ -31,7 +31,7 @@ public class App {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				myFrame = new MainFrame("Polynomial Calculator");
-				currentEvent = java.awt.EventQueue.getCurrentEvent();
+				currentEvent = java.awt.EventQueue.getCurrentEvent(); // save first event
 			}
 		});
 
@@ -39,7 +39,7 @@ public class App {
 		// not a very elegant solution but works. This is needed for the test()
 		// method. If the following statement is missing some parts of the GUI
 		// do not initialize before test() and a NullPointerException occurs.
-		while (currentEvent == java.awt.EventQueue.getCurrentEvent())
+		while (currentEvent == java.awt.EventQueue.getCurrentEvent()) // check if current event differs from the initial one
 			;
 
 		test();
