@@ -4,7 +4,6 @@
 
   <groupId>utcn.pt</groupId>
   <artifactId>orderManagement</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>orderManagement</name>
@@ -22,4 +21,5 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <version>5.2.0.Final</version>
 </project>
