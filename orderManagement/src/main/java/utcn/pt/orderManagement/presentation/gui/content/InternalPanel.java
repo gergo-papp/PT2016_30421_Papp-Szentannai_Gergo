@@ -9,6 +9,8 @@ public class InternalPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = -7831682227595020893L;
 	
-	
+	public InternalPanel(){
+		
+	}
 
 }
