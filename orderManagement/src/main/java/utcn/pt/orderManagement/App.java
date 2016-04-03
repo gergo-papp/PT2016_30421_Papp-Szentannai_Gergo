@@ -2,36 +2,25 @@ package utcn.pt.orderManagement;
 
 import javax.swing.SwingUtilities;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
-import utcn.pt.orderManagement.entities.Customer;
 import utcn.pt.orderManagement.entities.Model;
-import utcn.pt.orderManagement.entities.Product;
-import utcn.pt.orderManagement.entities.Warehouse;
 import utcn.pt.orderManagement.presentation.gui.MainFrame;
 
-
 /**
- * Entry point of the program.
+ * Entry point of the program. Initializes classes for handling Models and the GUI.
  *
  */
-public class App
-{
-	
+public class App {
+
 	private static Model models;
-	
-	
-    public static void main( String[] args )
-    {
-        System.out.println( "Program started" );
-        
-        initGui();
-        
-        setModels(new Model());
-      
-    }
+
+	public static void main(String[] args) {
+		
+		System.out.println("Program started");
+
+		initGui();
+		setModels(new Model());
+
+	}
 
 	private static void initGui() {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -49,6 +38,5 @@ public class App
 	public static void setModels(Model models) {
 		App.models = models;
 	}
-
 
 }

@@ -11,25 +11,27 @@ import utcn.pt.orderManagement.presentation.gui.tables.ProductTableModel;
  *
  */
 public class TableManager {
+	
+	
 
 	// Getting rows:
 
 	protected static void fetchCustomerRows(CustomerTableModel customerTableModel) {
-
+		
 	}
 
 	protected static void fetchOrderRows(OrderTableModel orderTableModel) {
-
+		
 	}
 
 	protected static void fetchProductRows(ProductTableModel productTableModel) {
-
+		
 	}
 
 	// Updating data (sending to business level):
 
-	protected static void addEntity(String[] columns) {
-
+	protected static void addEntity(String entity, String[] columns) {
+		
 	}
 
 }

@@ -2,15 +2,13 @@ package utcn.pt.orderManagement.presentation.gui.content;
 
 import javax.swing.JPanel;
 
-public class InternalPanel extends JPanel {
+public abstract class InternalPanel extends JPanel {
+
+	private static final long serialVersionUID = -7831682227595020893L;
 
 	/**
-	 * 
+	 * Initializes the contents of an internal panel.
 	 */
-	private static final long serialVersionUID = -7831682227595020893L;
-	
-	public InternalPanel(){
-		
-	}
+	protected abstract void initContentPanel();
 
 }

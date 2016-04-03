@@ -26,7 +26,7 @@ public class OrderPanel extends InternalPanel {
 
 	private JButton applyButton;
 
-	OrderTableModel orderTableModel;
+	private OrderTableModel orderTableModel;
 	private JTable table;
 
 	public OrderPanel() {
@@ -60,18 +60,12 @@ public class OrderPanel extends InternalPanel {
 		});
 		lsitOrdersButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int rowCount = orderTableModel.getRowCount();
-				for (int i = 0; i < rowCount; i++)
-					orderTableModel.removeRow(0);
-				TableManager.fetchOrderRows(orderTableModel);
+
 			}
 		});
 		applyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO
-				// nothing if not active
-				// edit or remove the current row's data (send command to
-				// business layer)
+
 			}
 		});
 
@@ -86,7 +80,7 @@ public class OrderPanel extends InternalPanel {
 		add(headerPanel, BorderLayout.NORTH);
 	}
 
-	private void initContentPanel() {
+	protected void initContentPanel() {
 		
 		initTable();
 		contentPanel = new JScrollPane(table);

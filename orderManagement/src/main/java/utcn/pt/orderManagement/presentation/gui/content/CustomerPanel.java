@@ -13,13 +13,8 @@ import utcn.pt.orderManagement.presentation.gui.tables.CustomerTableModel;
 
 public class CustomerPanel extends InternalPanel {
 
-
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8533365157363819506L;
-	
+
 	private JPanel headerPanel;
 	private JScrollPane contentPanel;
 
@@ -32,6 +27,9 @@ public class CustomerPanel extends InternalPanel {
 
 	private CustomerTableModel customerTableModel;
 	private JTable table;
+
+	private int selectedRow = -1;
+
 
 	public CustomerPanel() {
 
@@ -62,53 +60,29 @@ public class CustomerPanel extends InternalPanel {
 
 		editCustomerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int selectedRow = table.getSelectedRow();
-				if (selectedRow == -1) {
-					// TODO
-					// No row selected
-					// Message: select a row to edit
-				} else {
-					// TODO
-					// set current row editable
-					// enable apply button
-					// check for errors
-					// send to business layer
-				}
+
 			}
+
 		});
 		listCustomersButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int rowCount = customerTableModel.getRowCount();
-				for (int i = 0; i < rowCount; i++)
-					customerTableModel.removeRow(0);
-				TableManager.fetchCustomerRows(customerTableModel);
+
 			}
 		});
 		addCustomerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO
-				// create new row
-				// set editable
-				// enable apply button
-				// check input values
-				// send to business layer
+
 			}
 		});
 		removeCustomerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO
-				// get current row
-				// get ID
-				// send command to business layer
+
 			}
 		});
 
 		applyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO
-				// nothing if not active
-				// edit or remove the current row's data (send command to
-				// business layer)
+
 			}
 		});
 
@@ -125,9 +99,8 @@ public class CustomerPanel extends InternalPanel {
 		add(headerPanel, BorderLayout.NORTH);
 	}
 
-	private void initContentPanel() {
+	protected void initContentPanel() {
 
-		
 		initTable();
 		contentPanel = new JScrollPane(table);
 		add(contentPanel, BorderLayout.CENTER);
@@ -138,10 +111,18 @@ public class CustomerPanel extends InternalPanel {
 		customerTableModel = new CustomerTableModel();
 		table = new JTable(customerTableModel);
 		table.setEnabled(true);
-		
+
 		// TEST:
-		String[] obj = {"119917","First Last"};
+		String[] obj = { "119917", "First Last" };
 		customerTableModel.addRow(obj);
 		//
+	}
+
+	public int getSelectedRow() {
+		return selectedRow;
+	}
+
+	public void setSelectedRow(int selectedRow) {
+		this.selectedRow = selectedRow;
 	}
 }

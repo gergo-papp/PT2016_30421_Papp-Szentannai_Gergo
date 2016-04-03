@@ -9,14 +9,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import utcn.pt.orderManagement.presentation.gui.tables.CustomerTableModel;
 import utcn.pt.orderManagement.presentation.gui.tables.ProductTableModel;
 
 public class ProductPanel extends InternalPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7993245199050175652L;
 	private JPanel headerPanel;
 	private JScrollPane contentPanel;
@@ -51,24 +47,17 @@ public class ProductPanel extends InternalPanel {
 
 		addProductButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String[] newRow = { "<insert product ID>", "<insert product name>" };
-				productTableModel.addRow(newRow);
-				applyButton.setEnabled(true);
+
 			}
 		});
 		lsitProductsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int rowCount = productTableModel.getRowCount();
-				for (int i = 0; i < rowCount; i++)
-					productTableModel.removeRow(0);
-				TableManager.fetchProductRows(productTableModel);
+
 			}
 		});
 		applyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//
-				
-				applyButton.setEnabled(false);
+
 			}
 		});
 
@@ -83,7 +72,7 @@ public class ProductPanel extends InternalPanel {
 		add(headerPanel, BorderLayout.NORTH);
 	}
 
-	private void initContentPanel() {
+	protected void initContentPanel() {
 
 		initTable();
 		contentPanel = new JScrollPane(table);
