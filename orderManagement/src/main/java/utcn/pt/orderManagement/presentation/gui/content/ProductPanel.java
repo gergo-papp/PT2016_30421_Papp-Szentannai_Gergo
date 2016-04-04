@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import utcn.pt.orderManagement.presentation.gui.MainPanel;
 import utcn.pt.orderManagement.presentation.gui.tables.ProductTableModel;
 
 public class ProductPanel extends InternalPanel {
@@ -24,6 +25,9 @@ public class ProductPanel extends InternalPanel {
 
 	private ProductTableModel productTableModel;
 	private JTable table;
+	
+	private static int selectedRow = -1;
+	private String updateMode = new String();
 
 	public ProductPanel() {
 		// Set layout:
@@ -47,17 +51,49 @@ public class ProductPanel extends InternalPanel {
 
 		addProductButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				String[] initColumns = { "<ID>", "<Product Name>" };
+				productTableModel.insertRow(0, initColumns);
+				setSelectedRow(0);
+				applyButton.setEnabled(true);
+				setUpdateMode("add_product");
+				MainPanel.setMessage("Enter product details then press Apply!");
+			
 			}
 		});
 		lsitProductsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				// Fetch all customer rows - all rows will be written into the
+				// argument customerTableModel:
+				TableManager.fetchProductRows(productTableModel);
+				applyButton.setEnabled(false);
+				MainPanel.setMessage("Listing all products...");
+			
 			}
 		});
 		applyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (selectedRow != -1) { // Check if a row is selected
 
+					// Get details of the row:
+					String[] columns = { (String) table.getValueAt(selectedRow, 0),
+							(String) table.getValueAt(selectedRow, 1) };
+
+					// Send the String details of the row to the Table Manager:
+					TableManager.addEntity(getUpdateMode(), columns);
+
+					// Reset the apply button:
+					applyButton.setEnabled(false);
+
+					// Display the current operation to the user:
+					if (getUpdateMode().equals("add_product")) {
+						MainPanel.setMessage("Adding product...");
+					}
+				}
+
+				else {
+					MainPanel.setMessage("Please select a row and make the necessary changes.");
+					applyButton.setEnabled(false);
+				}
 			}
 		});
 
@@ -86,9 +122,21 @@ public class ProductPanel extends InternalPanel {
 		table = new JTable(productTableModel);
 		table.setEnabled(true);
 
-		// TEST:
-		String[] obj = { "12_5894", "Apples" };
-		productTableModel.addRow(obj);
-		//
+	}
+
+	public static int getSelectedRow() {
+		return selectedRow;
+	}
+
+	public void setSelectedRow(int selectedRow) {
+		ProductPanel.selectedRow = selectedRow;
+	}
+
+	public String getUpdateMode() {
+		return updateMode;
+	}
+
+	public void setUpdateMode(String updateMode) {
+		this.updateMode = updateMode;
 	}
 }

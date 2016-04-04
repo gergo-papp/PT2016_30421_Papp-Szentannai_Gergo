@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
+@Entity (name="Order_table")
 public class Order implements Serializable, Comparable<Order> {
 
 	/**

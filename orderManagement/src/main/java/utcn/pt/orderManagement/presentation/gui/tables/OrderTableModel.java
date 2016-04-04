@@ -2,39 +2,33 @@ package utcn.pt.orderManagement.presentation.gui.tables;
 
 import javax.swing.table.DefaultTableModel;
 
-
+import utcn.pt.orderManagement.presentation.gui.content.OrderPanel;
 
 public class OrderTableModel extends DefaultTableModel {
-	
 
+	private static String[] columnNames = { "Order ID", "Column" };
 
-
-	private static String[] columnNames = {"Order ID","Column"};
-
-	private static boolean isEdited = false;
-	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3225319702897819799L;
-	
 
-	
 	public OrderTableModel() {
-		super( getColumnNames(),0);
+		super(getColumnNames(), 0);
 		// TODO Auto-generated constructor stub
-		String[] obj = {"0","testProduct"};
-		addRow(obj);
 	}
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		// TODO Auto-generated method stub
-		if (isEdited)
+		if (OrderPanel.getSelectedRow() == -1) {
+			return false;
+		} else if (OrderPanel.getSelectedRow() == row) { //
 			return true;
-		return false;
+		} else
+			return false;
 	}
-	
+
 	public static String[] getColumnNames() {
 		return columnNames;
 	}
@@ -43,20 +37,8 @@ public class OrderTableModel extends DefaultTableModel {
 		OrderTableModel.columnNames = columnNames;
 	}
 
-
 	public int getColumnCount() {
 		return 2;
 	}
 
-
-	public static boolean isEdited() {
-		return isEdited;
-	}
-
-
-	public static void setEdited(boolean isEdited) {
-		OrderTableModel.isEdited = isEdited;
-	}
-
-	
 }

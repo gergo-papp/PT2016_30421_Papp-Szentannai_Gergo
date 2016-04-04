@@ -2,6 +2,7 @@ package utcn.pt.orderManagement.entities;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Set;
 
 import utcn.pt.orderManagement.dataAccessLayer.Database;
 
@@ -11,10 +12,10 @@ public class Model implements Serializable {
 
 	public static Database database;
 
-	private HashSet<Customer> customers;
-	private HashSet<Order> orders;
-	private HashSet<Product> products;
-	private HashSet<Warehouse> warehouses;
+	private Set<Customer> customers;
+	private Set<Order> orders;
+	private Set<Product> products;
+	private Set<Warehouse> warehouses;
 
 	private OrderProcessingDepartment orderProcessingDepartment;
 	private ProductDistribution productDistribution;
@@ -24,13 +25,22 @@ public class Model implements Serializable {
 		initModels();
 		initDatabase();
 		System.out.println("Model created");
+		
+
 	}
 
 	/**
 	 * Initializes the database and automatically attempts to connect.
 	 */
 	private void initDatabase() {
-		database = new Database();
+		long millis = 10;
+		try {
+			Thread.sleep(millis);
+			database = new Database();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -46,17 +56,54 @@ public class Model implements Serializable {
 	// TODO:
 	/*
 	 * READ: get info from database - store acquired data in model - send model
-	 * parameters to TableManager
-	 * - read is done on the entire database (all elements have to be extracted)
+	 * parameters to TableManager - read is done on the entire database (all
+	 * elements have to be extracted)
 	 * 
 	 * WRITE: respond to a call from TableManager - check syntax then add new
-	 * Model - send model to database for add/update
-	 * - first update models, then add new model (auto check for duplicate);
-	 * sent models
+	 * Model - send model to database for add/update - first update models, then
+	 * add new model (auto check for duplicate); sent models
 	 */
+	
+	public boolean removeCustomer(int id){
+		Customer costomerToBeRemoved = new Customer(id);
+		
+		if (customers.contains(costomerToBeRemoved)){
+			customers.remove(costomerToBeRemoved);
+			database.remove(costomerToBeRemoved);
+			return true;
+		}
+		else
+			return false;
+	}
+
+	public boolean addCustomer(Customer newCustomer) {
+		if (getCustomers().add(newCustomer)) {
+			database.saveOrUpdate(newCustomer);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean addProduct(Product newProduct) {
+
+		if (getProducts().add(newProduct)) {
+			database.saveOrUpdate(newProduct);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean addOrder(Order newOrder) {
+
+		if (getOrders().add(newOrder)) {
+			database.saveOrUpdate(newOrder);
+			return true;
+		}
+		return false;
+	}
 
 	public HashSet<Customer> getCustomers() {
-		return customers;
+		return (HashSet<Customer>) customers;
 	}
 
 	public void setCustomers(HashSet<Customer> customers) {
@@ -64,7 +111,7 @@ public class Model implements Serializable {
 	}
 
 	public HashSet<Order> getOrders() {
-		return orders;
+		return (HashSet<Order>) orders;
 	}
 
 	public void setOrders(HashSet<Order> orders) {
@@ -72,7 +119,7 @@ public class Model implements Serializable {
 	}
 
 	public HashSet<Product> getProducts() {
-		return products;
+		return (HashSet<Product>) products;
 	}
 
 	public void setProducts(HashSet<Product> products) {
@@ -80,7 +127,7 @@ public class Model implements Serializable {
 	}
 
 	public HashSet<Warehouse> getWarehouses() {
-		return warehouses;
+		return (HashSet<Warehouse>) warehouses;
 	}
 
 	public void setWarehouses(HashSet<Warehouse> warehouses) {

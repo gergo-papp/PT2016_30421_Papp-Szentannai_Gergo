@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import utcn.pt.orderManagement.presentation.gui.MainPanel;
 import utcn.pt.orderManagement.presentation.gui.tables.CustomerTableModel;
 
 public class CustomerPanel extends InternalPanel {
@@ -28,8 +29,8 @@ public class CustomerPanel extends InternalPanel {
 	private CustomerTableModel customerTableModel;
 	private JTable table;
 
-	private int selectedRow = -1;
-
+	private static int selectedRow = -1;
+	private String updateMode = new String();
 
 	public CustomerPanel() {
 
@@ -61,28 +62,84 @@ public class CustomerPanel extends InternalPanel {
 		editCustomerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				if (table.getSelectedRowCount() > 1) {
+					MainPanel.setMessage("Plese select only one row!");
+					applyButton.setEnabled(false);
+					selectedRow = -1;
+				} else if (table.getSelectedRowCount() < 1) {
+					MainPanel.setMessage("Plese select a row!");
+					applyButton.setEnabled(false);
+				}
+
+				else {
+					selectedRow = table.getSelectedRow();
+					setUpdateMode("edit_customer");
+					applyButton.setEnabled(true);
+				}
 			}
 
 		});
+
 		listCustomersButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				// Fetch all customer rows - all rows will be written into the
+				// argument customerTableModel:
+				TableManager.fetchCustomerRows(customerTableModel);
+				applyButton.setEnabled(false);
+				MainPanel.setMessage("Listing all customers...");
 			}
 		});
+
 		addCustomerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				String[] initColumns = { "<ID>", "<Name>" };
+				customerTableModel.insertRow(0, initColumns);
+				selectedRow = 0;
+				applyButton.setEnabled(true);
+				setUpdateMode("add_customer");
+				MainPanel.setMessage("Enter customer details then press Apply!");
 			}
 		});
+
 		removeCustomerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				applyButton.setEnabled(false);
+				if (selectedRow != -1) { // Check if a row is selected
+					TableManager.removeEntity("customer", (String) table.getValueAt(selectedRow, 0));
+					MainPanel.setMessage("Removing curomer...");
+				} else {
+					MainPanel.setMessage("Please select a row to be deleted.");
+				}
 			}
 		});
 
 		applyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				if (selectedRow != -1) { // Check if a row is selected
+
+					// Get details of the row:
+					String[] columns = { (String) table.getValueAt(selectedRow, 0),
+							(String) table.getValueAt(selectedRow, 1) };
+
+					// Send the String details of the row to the Table Manager:
+					TableManager.addEntity(getUpdateMode(), columns);
+
+					// Reset the apply button:
+					applyButton.setEnabled(false);
+
+					// Display the current operation to the user:
+					if (getUpdateMode().equals("edit_customer")) {
+						MainPanel.setMessage("Editing customer...");
+					} else if (getUpdateMode().equals("add_customer")) {
+						MainPanel.setMessage("Adding customer...");
+					}
+				}
+
+				else {
+					MainPanel.setMessage("Please select a row and make the necessary changes.");
+					applyButton.setEnabled(false);
+				}
 			}
 		});
 
@@ -112,17 +169,21 @@ public class CustomerPanel extends InternalPanel {
 		table = new JTable(customerTableModel);
 		table.setEnabled(true);
 
-		// TEST:
-		String[] obj = { "119917", "First Last" };
-		customerTableModel.addRow(obj);
-		//
 	}
 
-	public int getSelectedRow() {
+	public static int getSelectedRow() {
 		return selectedRow;
 	}
 
 	public void setSelectedRow(int selectedRow) {
-		this.selectedRow = selectedRow;
+		CustomerPanel.selectedRow = selectedRow;
+	}
+
+	public String getUpdateMode() {
+		return updateMode;
+	}
+
+	public void setUpdateMode(String updateMode) {
+		this.updateMode = updateMode;
 	}
 }

@@ -16,7 +16,7 @@ public class Product implements Serializable, Comparable<Product> {
 	@Id
 	private int idProduct;
 	private String productName;
-	private String productDescription;
+	//private String productDescription;
 	
 	public Product(int idProduct, String productName){
 		setIdProduct(idProduct);
@@ -42,7 +42,7 @@ public class Product implements Serializable, Comparable<Product> {
 		return getIdProduct() - product.getIdProduct();
 	}
 
-
+/*
 	public String getProductDescription() {
 		return productDescription;
 	}
@@ -52,6 +52,6 @@ public class Product implements Serializable, Comparable<Product> {
 		this.productDescription = productDescription;
 	}
 	
-	
+*/
 
 }

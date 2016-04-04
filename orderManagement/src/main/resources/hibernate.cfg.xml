@@ -32,15 +32,15 @@
         <property name="show_sql">true</property>
         
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
 
 		<!-- MAPPING -->
 		<mapping class="utcn.pt.orderManagement.entities.Customer"/>
 		<mapping class="utcn.pt.orderManagement.entities.Product"/>
-		<mapping class="utcn.pt.orderManagement.entities.Warehouse"/>
+		<!-- <mapping class="utcn.pt.orderManagement.entities.Warehouse"/> -->
 		<mapping class="utcn.pt.orderManagement.entities.Order"/>
-		<mapping class="utcn.pt.orderManagement.entities.OrderProcessingDepartment"/>
-		<mapping class="utcn.pt.orderManagement.entities.ProductDistribution"/>
+		<!-- <mapping class="utcn.pt.orderManagement.entities.OrderProcessingDepartment"/> -->
+		<!-- <mapping class="utcn.pt.orderManagement.entities.ProductDistribution"/> -->
 		
 
     </session-factory>

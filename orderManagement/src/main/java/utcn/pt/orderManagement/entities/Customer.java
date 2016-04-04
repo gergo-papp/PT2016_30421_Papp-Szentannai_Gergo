@@ -15,20 +15,23 @@ public class Customer implements Serializable, Comparable<Customer> {
 	@Id
 	private int idCustomer;
 	private String customerFirstName;
-	private String customerLastName;
-	private String customerEmail;
+	//private String customerLastName;
+	//private String customerEmail;
 	
-	
+	public Customer(){
+		
+	}
 	
 	public Customer(int idCustomer) {
 		setIdCustomer(idCustomer);
+		setCustomerFirstName(null);
 	}
 	
 	public Customer(int idCustomer, String customerFirstName) {
 		setIdCustomer(idCustomer);
 		setCustomerFirstName(customerFirstName);
 	}
-
+/*
 	public Customer(int idCustomer, String customerFirstName, String customerLastName) {
 		setIdCustomer(idCustomer);
 		setCustomerFirstName(customerFirstName);
@@ -40,7 +43,7 @@ public class Customer implements Serializable, Comparable<Customer> {
 		setCustomerLastName(customerLastName);
 		setCustomerEmail(customerEmail);
 	}
-
+*/
 	public int getIdCustomer() {
 		return idCustomer;
 	}
@@ -60,7 +63,7 @@ public class Customer implements Serializable, Comparable<Customer> {
 	public void setCustomerFirstName(String customerFirstName) {
 		this.customerFirstName = customerFirstName;
 	}
-
+/*
 	public String getCustomerLastName() {
 		return customerLastName;
 	}
@@ -76,6 +79,12 @@ public class Customer implements Serializable, Comparable<Customer> {
 	public void setCustomerEmail(String customerEmail) {
 		this.customerEmail = customerEmail;
 	}
+*/
 
+	@Override
+	public String toString() {
+		return "Customer [idCustomer=" + idCustomer + ", customerFirstName=" + customerFirstName + "]";
+	}
+	
 
 }
