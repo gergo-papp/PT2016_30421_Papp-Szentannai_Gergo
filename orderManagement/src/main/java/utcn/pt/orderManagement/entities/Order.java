@@ -1,9 +1,15 @@
 package utcn.pt.orderManagement.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
 
 @Entity (name="Order_table")
 public class Order implements Serializable, Comparable<Order> {
@@ -15,20 +21,25 @@ public class Order implements Serializable, Comparable<Order> {
 	
 	@Id
 	private int idOrder;
-	private int idCustomer;
+	
+	@ManyToMany(mappedBy="orders")
+    private Set<Product> employees = new HashSet<Product>();
+	
+    @ManyToOne
+    @JoinColumn(name="idCustomer")
+    private Customer customer;
 	
 	public String toString(){
 		String data = new String(Integer.toString(idOrder));
 		data += " ";
-		data += Integer.toString(idCustomer);
+		data += customer.getIdCustomer();
 		
 		return data;
 		
 	}
 
-	public Order(int idOrder, int idCustomer) {
-		setIdOrder(idOrder);
-		setIdCustomer(idCustomer);
+	public Order(){
+		
 	}
 
 	public int getIdOrder() {
@@ -37,14 +48,6 @@ public class Order implements Serializable, Comparable<Order> {
 
 	public void setIdOrder(int idOrder) {
 		this.idOrder = idOrder;
-	}
-
-	public int getIdCustomer() {
-		return idCustomer;
-	}
-
-	public void setIdCustomer(int idCustomer) {
-		this.idCustomer = idCustomer;
 	}
 
 	public int compareTo(Order order) {

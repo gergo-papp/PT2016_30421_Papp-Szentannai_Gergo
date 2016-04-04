@@ -2,10 +2,21 @@ package utcn.pt.orderManagement.entities;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import utcn.pt.orderManagement.dataAccessLayer.Database;
+import utcn.pt.orderManagement.presentation.gui.MainPanel;
 
+/**
+ * [READ]: get info from database - store acquired data in model - send model
+ * parameters to TableManager - read is done on the entire database (all
+ * elements have to be extracted)
+ * 
+ * [WRITE]: respond to a call from TableManager - check syntax then add new
+ * Model - send model to database for add/update - first update models, then add
+ * new model (auto check for duplicate); sent models
+ */
 public class Model implements Serializable {
 
 	private static final long serialVersionUID = -2570625099474932221L;
@@ -25,7 +36,6 @@ public class Model implements Serializable {
 		initModels();
 		initDatabase();
 		System.out.println("Model created");
-		
 
 	}
 
@@ -38,8 +48,9 @@ public class Model implements Serializable {
 			Thread.sleep(millis);
 			database = new Database();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
+			MainPanel.setMessage("Failed to connect to database! Please restart the app.");
 		}
 	}
 
@@ -53,27 +64,21 @@ public class Model implements Serializable {
 		setWarehouses(new HashSet<Warehouse>());
 	}
 
-	// TODO:
-	/*
-	 * READ: get info from database - store acquired data in model - send model
-	 * parameters to TableManager - read is done on the entire database (all
-	 * elements have to be extracted)
-	 * 
-	 * WRITE: respond to a call from TableManager - check syntax then add new
-	 * Model - send model to database for add/update - first update models, then
-	 * add new model (auto check for duplicate); sent models
-	 */
-	
-	public boolean removeCustomer(int id){
+	public boolean removeCustomer(int id) {
 		Customer costomerToBeRemoved = new Customer(id);
-		
-		if (customers.contains(costomerToBeRemoved)){
-			customers.remove(costomerToBeRemoved);
-			database.remove(costomerToBeRemoved);
-			return true;
+		System.out.println(costomerToBeRemoved.toString());
+
+		for (Iterator<Customer> it = customers.iterator(); it.hasNext();) {
+			Customer tempCust = it.next();
+			System.out.println(tempCust.toString());
+			if (tempCust.equals(costomerToBeRemoved)) {
+				database.remove(tempCust);
+				database.remove(tempCust);
+				System.out.println("Removing customer:" + tempCust);
+				return true;
+			}
 		}
-		else
-			return false;
+		return false;
 	}
 
 	public boolean addCustomer(Customer newCustomer) {

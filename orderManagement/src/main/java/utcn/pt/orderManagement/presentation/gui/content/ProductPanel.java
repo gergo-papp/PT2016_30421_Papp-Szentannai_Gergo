@@ -19,13 +19,13 @@ public class ProductPanel extends InternalPanel {
 	private JScrollPane contentPanel;
 
 	private JButton addProductButton;
-	private JButton lsitProductsButton;
+	private JButton listProductsButton;
 
 	private JButton applyButton;
 
 	private ProductTableModel productTableModel;
 	private JTable table;
-	
+
 	private static int selectedRow = -1;
 	private String updateMode = new String();
 
@@ -42,7 +42,7 @@ public class ProductPanel extends InternalPanel {
 
 	private void initButtons() {
 		addProductButton = new JButton("Add product");
-		lsitProductsButton = new JButton("List all products");
+		listProductsButton = new JButton("List all products");
 
 		applyButton = new JButton("Apply");
 		applyButton.setEnabled(false);
@@ -51,23 +51,21 @@ public class ProductPanel extends InternalPanel {
 
 		addProductButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String[] initColumns = { "<ID>", "<Product Name>" };
+				String[] initColumns = { "<p ID>", "<p name>", "<quantity>", "<descr>" };
 				productTableModel.insertRow(0, initColumns);
-				setSelectedRow(0);
+				selectedRow = 0;
 				applyButton.setEnabled(true);
 				setUpdateMode("add_product");
 				MainPanel.setMessage("Enter product details then press Apply!");
-			
 			}
 		});
-		lsitProductsButton.addActionListener(new ActionListener() {
+		listProductsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Fetch all customer rows - all rows will be written into the
 				// argument customerTableModel:
 				TableManager.fetchProductRows(productTableModel);
 				applyButton.setEnabled(false);
 				MainPanel.setMessage("Listing all products...");
-			
 			}
 		});
 		applyButton.addActionListener(new ActionListener() {
@@ -76,7 +74,8 @@ public class ProductPanel extends InternalPanel {
 
 					// Get details of the row:
 					String[] columns = { (String) table.getValueAt(selectedRow, 0),
-							(String) table.getValueAt(selectedRow, 1) };
+							(String) table.getValueAt(selectedRow, 1), (String) table.getValueAt(selectedRow, 2),
+							(String) table.getValueAt(selectedRow, 3) };
 
 					// Send the String details of the row to the Table Manager:
 					TableManager.addEntity(getUpdateMode(), columns);
@@ -102,7 +101,7 @@ public class ProductPanel extends InternalPanel {
 		headerPanel = new JPanel();
 
 		headerPanel.add(addProductButton);
-		headerPanel.add(lsitProductsButton);
+		headerPanel.add(listProductsButton);
 		headerPanel.add(applyButton);
 
 		add(headerPanel, BorderLayout.NORTH);

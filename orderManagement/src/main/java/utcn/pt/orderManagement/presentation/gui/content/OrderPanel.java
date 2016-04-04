@@ -25,6 +25,7 @@ public class OrderPanel extends InternalPanel {
 	private JButton addOrderButton;
 	private JButton lsitOrdersButton;
 
+	private JButton closeButton;
 	private JButton applyButton;
 
 	private OrderTableModel orderTableModel;
@@ -32,8 +33,15 @@ public class OrderPanel extends InternalPanel {
 
 	private static int selectedRow = -1;
 	private String updateMode = new String();
+	
+	private String idCustomer;
+	private Object thisClass;
 
-	public OrderPanel() {
+	public OrderPanel(String id) {
+		
+		thisClass = this;
+		
+		setIdCustomer(id);
 
 		// Set layout:
 
@@ -52,11 +60,21 @@ public class OrderPanel extends InternalPanel {
 	private void initButtons() {
 		addOrderButton = new JButton("Add order");
 		lsitOrdersButton = new JButton("List all orders");
+		closeButton = new JButton("Close");
 
 		applyButton = new JButton("Apply");
 		applyButton.setEnabled(false);
 
 		// Add ActionListeners:
+		
+		closeButton.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO close tabbedPane
+				MainPanel.closeOrderPanel((OrderPanel)thisClass);
+			}
+			
+		});
 
 		addOrderButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -106,6 +124,7 @@ public class OrderPanel extends InternalPanel {
 				}
 			}
 		});
+		
 
 		// Add buttons to headerPanel:
 
@@ -114,6 +133,7 @@ public class OrderPanel extends InternalPanel {
 		headerPanel.add(addOrderButton);
 		headerPanel.add(lsitOrdersButton);
 		headerPanel.add(applyButton);
+		headerPanel.add(closeButton);
 
 		add(headerPanel, BorderLayout.NORTH);
 	}
@@ -148,6 +168,14 @@ public class OrderPanel extends InternalPanel {
 
 	public void setUpdateMode(String updateMode) {
 		this.updateMode = updateMode;
+	}
+
+	public String getIdCustomer() {
+		return idCustomer;
+	}
+
+	public void setIdCustomer(String idCustomer) {
+		this.idCustomer = idCustomer;
 	}
 
 }

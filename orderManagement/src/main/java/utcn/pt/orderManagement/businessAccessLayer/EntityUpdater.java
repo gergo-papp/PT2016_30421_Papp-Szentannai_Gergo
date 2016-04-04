@@ -19,7 +19,7 @@ public class EntityUpdater implements EntityHandler{
 		int id = Integer.parseInt(columns[0]);
 
 		// Create new customer:
-		Customer newCustomer = new Customer(id, columns[1]);
+		Customer newCustomer = new Customer(id, columns[1], columns[2], columns[3]);
 
 		// Add new customer:
 		App.getModels().addCustomer(newCustomer);
@@ -35,7 +35,7 @@ public class EntityUpdater implements EntityHandler{
 
 		// Get Integer ID:
 		int id = Integer.parseInt(columns[0]);
-		Customer newCustomer = new Customer(id, columns[1]);
+		Customer newCustomer = new Customer(id, columns[1], columns[2], columns[3]);
 
 		// Removes the existing customer:
 		App.getModels().getCustomers().remove(new Customer(id));
@@ -48,25 +48,17 @@ public class EntityUpdater implements EntityHandler{
 
 		// Get Integer ID:
 		int id = Integer.parseInt(columns[0]);
+		int quantity = Integer.parseInt(columns[2]);
 
 		// Create new product:
-		Product newProduct = new Product(id, columns[1]);
+		Product newProduct = new Product(id, columns[1], quantity, columns[3]);
 
 		// Add new product:
 		App.getModels().addProduct(newProduct);
 	}
 
 	public static void addOrder(String[] columns) {
-
-		// Get Integer IDs:
-		int id = Integer.parseInt(columns[0]);
-		int id2 = Integer.parseInt(columns[1]);
-
-		// Create new order
-		Order newOrder = new Order(id, id2);
-
-		// Add new order:
-		App.getModels().addOrder(newOrder);
+		// TODO generate order
 	}
 
 }

@@ -23,10 +23,25 @@ public class MainPanel extends JPanel {
 	static JTextField messageField;
 	private JScrollPane statusScrollPane;
 	
-	private JTabbedPane tabbedPane;
-	private InternalPanel customerPanel, orderPanel, productPanel; // homePanel,
-															// ogInPanel,
+	private static JTabbedPane tabbedPane;
+	private InternalPanel customerPanel;
 
+
+	private static InternalPanel orderPanel;
+
+	private InternalPanel productPanel;
+
+	public static void openOrderPanel(String id){
+		orderPanel = new OrderPanel(id);
+		String tabName = new String();
+		tabName = "Orders of customer " + id;
+		tabbedPane.insertTab(tabName, null, orderPanel, null, 0);
+	}
+	public static void closeOrderPanel(OrderPanel OrderPanel){
+		tabbedPane.remove(OrderPanel);
+	}
+	
+	
 	public MainPanel() {
 
 		setLayout(new BorderLayout(hgap, vgap));
@@ -39,7 +54,7 @@ public class MainPanel extends JPanel {
 
 	private void initPanels() {
 		customerPanel = new CustomerPanel();
-		orderPanel = new OrderPanel();
+		//orderPanel = new OrderPanel();
 		productPanel = new ProductPanel();
 		// homePanel = new HomePanel();
 		// logInPanel = new LogInPanel();
@@ -47,7 +62,7 @@ public class MainPanel extends JPanel {
 		tabbedPane = new JTabbedPane();
 
 		tabbedPane.addTab("Customers", customerPanel);
-		tabbedPane.addTab("Orders", orderPanel);
+		//tabbedPane.addTab("Orders", orderPanel);
 		tabbedPane.addTab("Products", productPanel);
 		add(tabbedPane, BorderLayout.CENTER);
 		

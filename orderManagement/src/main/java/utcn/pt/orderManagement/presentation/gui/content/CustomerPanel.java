@@ -24,6 +24,7 @@ public class CustomerPanel extends InternalPanel {
 	private JButton editCustomerButton;
 	private JButton removeCustomerButton;
 
+	private JButton orders;
 	private JButton applyButton;
 
 	private CustomerTableModel customerTableModel;
@@ -54,12 +55,36 @@ public class CustomerPanel extends InternalPanel {
 		editCustomerButton = new JButton("Edit customer");
 		removeCustomerButton = new JButton("Remove customer");
 
+		orders = new JButton("Orders");
+
 		applyButton = new JButton("Apply");
 		applyButton.setEnabled(false);
 
 		// Add ActionListeners:
 
+		orders.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO open orders Panel
+				if (table.getSelectedRowCount() > 1) {
+					MainPanel.setMessage("Plese select only one customer!");
+					applyButton.setEnabled(false);
+					selectedRow = -1;
+				} else if (table.getSelectedRowCount() < 1) {
+					MainPanel.setMessage("Plese select a customer!");
+					applyButton.setEnabled(false);
+				} else {
+					selectedRow = table.getSelectedRow();
+					String id = new String((String) table.getValueAt(selectedRow, 0));
+					MainPanel.openOrderPanel(id);
+				}
+
+			}
+
+		});
+
 		editCustomerButton.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 
 				if (table.getSelectedRowCount() > 1) {
@@ -69,9 +94,7 @@ public class CustomerPanel extends InternalPanel {
 				} else if (table.getSelectedRowCount() < 1) {
 					MainPanel.setMessage("Plese select a row!");
 					applyButton.setEnabled(false);
-				}
-
-				else {
+				} else {
 					selectedRow = table.getSelectedRow();
 					setUpdateMode("edit_customer");
 					applyButton.setEnabled(true);
@@ -92,7 +115,7 @@ public class CustomerPanel extends InternalPanel {
 
 		addCustomerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String[] initColumns = { "<ID>", "<Name>" };
+				String[] initColumns = { "<ID>", "<firs>","<last>","<e-mail>",""};
 				customerTableModel.insertRow(0, initColumns);
 				selectedRow = 0;
 				applyButton.setEnabled(true);
@@ -103,7 +126,16 @@ public class CustomerPanel extends InternalPanel {
 
 		removeCustomerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				selectedRow = -1;
 				applyButton.setEnabled(false);
+				if (table.getSelectedRowCount() > 1) {
+					MainPanel.setMessage("Plese select only one row!");
+				} else if (table.getSelectedRowCount() < 1) {
+					MainPanel.setMessage("Plese select a row!");
+				} else {
+					selectedRow = table.getSelectedRow();
+				}
+
 				if (selectedRow != -1) { // Check if a row is selected
 					TableManager.removeEntity("customer", (String) table.getValueAt(selectedRow, 0));
 					MainPanel.setMessage("Removing curomer...");
@@ -120,7 +152,7 @@ public class CustomerPanel extends InternalPanel {
 
 					// Get details of the row:
 					String[] columns = { (String) table.getValueAt(selectedRow, 0),
-							(String) table.getValueAt(selectedRow, 1) };
+							(String) table.getValueAt(selectedRow, 1),(String) table.getValueAt(selectedRow, 2),(String) table.getValueAt(selectedRow, 3) };
 
 					// Send the String details of the row to the Table Manager:
 					TableManager.addEntity(getUpdateMode(), columns);
@@ -140,6 +172,7 @@ public class CustomerPanel extends InternalPanel {
 					MainPanel.setMessage("Please select a row and make the necessary changes.");
 					applyButton.setEnabled(false);
 				}
+				selectedRow = -1;
 			}
 		});
 
@@ -147,6 +180,7 @@ public class CustomerPanel extends InternalPanel {
 
 		headerPanel = new JPanel();
 
+		headerPanel.add(orders);
 		headerPanel.add(listCustomersButton);
 		headerPanel.add(editCustomerButton);
 		headerPanel.add(addCustomerButton);

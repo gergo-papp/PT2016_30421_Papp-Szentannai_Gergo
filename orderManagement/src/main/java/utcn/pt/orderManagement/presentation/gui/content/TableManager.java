@@ -39,22 +39,7 @@ public class TableManager {
 	}
 
 	protected static void fetchOrderRows(OrderTableModel orderTableModel) {
-
-		// Remove all rows:
-		int rowCount = orderTableModel.getRowCount();
-		for (int i = 0; i < rowCount; i++) {
-			orderTableModel.removeRow(0);
-		}
-
-		// Get rowData as a 2D vector of Strings:
-		String[][] rowData = EntityFetcher.listOrders();
-		int i;
-		int length = rowData.length;
-
-		// Insert all rows into the table
-		for (i = 0; i < length; i++) {
-			orderTableModel.addRow((String[]) rowData[i]);
-		}
+		// TODO implement
 	}
 
 	protected static void fetchProductRows(ProductTableModel productTableModel) {
@@ -67,12 +52,14 @@ public class TableManager {
 
 		// Get rowData as a 2D vector of Strings:
 		String[][] rowData = EntityFetcher.listProducts();
-		int i;
-		int length = rowData.length;
+		if (rowData != null) {
+			int i;
+			int length = rowData.length;
 
-		// Insert all rows into the table
-		for (i = 0; i < length; i++) {
-			productTableModel.addRow((String[]) rowData[i]);
+			// Insert all rows into the table
+			for (i = 0; i < length; i++) {
+				productTableModel.addRow((String[]) rowData[i]);
+			}
 		}
 	}
 
@@ -103,6 +90,7 @@ public class TableManager {
 		int idEntity = Integer.parseInt(id);
 		if (entity.equals("customer")) {
 			EntityRemover.removeCustomer(idEntity);
+			System.out.println("Removing entity: " + entity + " with ID=" + idEntity);
 		}
 
 	}

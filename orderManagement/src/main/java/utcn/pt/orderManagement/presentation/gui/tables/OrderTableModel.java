@@ -6,7 +6,7 @@ import utcn.pt.orderManagement.presentation.gui.content.OrderPanel;
 
 public class OrderTableModel extends DefaultTableModel {
 
-	private static String[] columnNames = { "Order ID", "Column" };
+	private static String[] columnNames = { "Order ID", "Product" };
 
 	/**
 	 * 

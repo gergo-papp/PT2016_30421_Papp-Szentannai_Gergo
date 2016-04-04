@@ -3,13 +3,12 @@ package utcn.pt.orderManagement.presentation.gui.tables;
 import javax.swing.table.DefaultTableModel;
 
 import utcn.pt.orderManagement.presentation.gui.content.CustomerPanel;
-import utcn.pt.orderManagement.presentation.gui.content.ProductPanel;
 
 public class CustomerTableModel extends DefaultTableModel {
 
 	private static final long serialVersionUID = -503979692677095346L;
 
-	private static String[] columnNames = { "Customer ID", "Customer Name" };
+	private static String[] columnNames = { "Customer ID", "First Name", "Last Name", "e-mail" };
 
 	public CustomerTableModel() {
 		super(getColumnNames(), 0); // sets the column names of the table
@@ -33,6 +32,5 @@ public class CustomerTableModel extends DefaultTableModel {
 		} else
 			return false;
 	}
-	
 
 }

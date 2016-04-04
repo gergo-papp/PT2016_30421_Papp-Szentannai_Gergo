@@ -11,7 +11,7 @@ public class ProductTableModel extends DefaultTableModel {
 	 */
 	private static final long serialVersionUID = 921057178723731637L;
 
-	private static String[] columnNames = {"Product ID","Product Name"};
+	private static String[] columnNames = {"Product ID","Product Name", "Quantity", "Description"};
 	
 	public ProductTableModel() {
 		super( getColumnNames(),0);
