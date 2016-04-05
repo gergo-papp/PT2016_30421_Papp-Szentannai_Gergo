@@ -12,6 +12,8 @@ import utcn.pt.orderManagement.presentation.gui.MainFrame;
 public class App {
 
 	private static Model models;
+	
+
 
 	public static void main(String[] args) {
 		
@@ -21,6 +23,9 @@ public class App {
 		setModels(new Model());
 
 	}
+	
+	
+	
 
 	private static void initGui() {
 		SwingUtilities.invokeLater(new Runnable() {
