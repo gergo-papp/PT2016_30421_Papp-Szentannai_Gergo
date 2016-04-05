@@ -25,6 +25,7 @@ public final class ClientGenerator {
 	private ClientServiceTimeGenerator clientServiceTimeGenerator;
 
 	public ClientGenerator() {
+		System.out.println("Client generator initialized");
 		
 		setMinWaitingTime(Environment.getMinWaitingTime());
 		setMaxWaitingTime(Environment.getMaxWaitingTime());

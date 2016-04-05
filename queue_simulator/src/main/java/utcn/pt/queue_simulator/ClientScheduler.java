@@ -1,21 +1,29 @@
 package utcn.pt.queue_simulator;
 
+import java.util.ArrayList;
+
 import utcn.pt.queue_simulator.client.Client;
 import utcn.pt.queue_simulator.queue.Queue;
 
 public class ClientScheduler {
 
 	private int nrOfQueues;
-	private Queue[] queues;
+	private ArrayList<Queue> queues;
 
 	public ClientScheduler(int nrOfQueues) {
+		
+		System.out.println("Client Scheduler initialized. Number of queues: " + nrOfQueues);
 
 		this.setNrOfQueues(nrOfQueues);
 
-		queues = new Queue[getNrOfQueues()];
+		queues = new ArrayList<Queue>();
 
+		System.out.println(queues.toString());
+		
 		for (int i = 0; i < getNrOfQueues(); i++) {
-			queues[i] = new Queue();
+			queues.add(new Queue());
+			new Thread(queues.get(i)).start();
+			System.out.println(queues.get(i).toString());
 		}
 	}
 
@@ -26,14 +34,15 @@ public class ClientScheduler {
 	 */
 	public void dispatchClientToQueue(Client client) {
 		int shortestQueueIndex = getShortestQueueIndex();
-		queues[shortestQueueIndex].addClient(client);
+		System.out.println("Shortest queue time:" + shortestQueueIndex);
+		queues.get(shortestQueueIndex).addClient(client);
 	}
 
 	private int getShortestQueueIndex() {
 		int shortestQueueIndex = Integer.MAX_VALUE;
 		for (int i = 0; i < getNrOfQueues(); i++) {
-			if (shortestQueueIndex > queues[i].getWaitingTime().intValue()) {
-				shortestQueueIndex = queues[i].getWaitingTime().intValue();
+			if (shortestQueueIndex > queues.get(i).getWaitingTime()) {
+				shortestQueueIndex = queues.get(i).getWaitingTime();
 			}
 		}
 		return 0;

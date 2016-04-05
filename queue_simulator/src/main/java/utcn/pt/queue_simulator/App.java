@@ -1,7 +1,7 @@
 package utcn.pt.queue_simulator;
 
-import utcn.pt.queue_simulator.client.ClientGenerator;
 import utcn.pt.queue_simulator.util.io.Environment;
+import utcn.pt.queue_simulator.Simulator;
 
 /**
  * Entry point of the application
@@ -10,16 +10,17 @@ import utcn.pt.queue_simulator.util.io.Environment;
 public class App {
 
 	private static Environment environment;
+	private static Simulator simulator;
 
 	public static void main(String[] args) {
 
 		System.out.println("App started");
 		
+		// Set the environment variables:
 		setEnvironment(new Environment());
+		setSimulator(new Simulator());
 		
-		ClientGenerator cg = new ClientGenerator(environment);
-		System.out.println(cg.generateClient().toString());
-		System.out.println(cg.generateClient().toString());
+		new Thread(getSimulator()).start();
 
 	}
 
@@ -29,5 +30,13 @@ public class App {
 
 	public static void setEnvironment(Environment environment) {
 		App.environment = environment;
+	}
+
+	public static Simulator getSimulator() {
+		return simulator;
+	}
+
+	public static void setSimulator(Simulator simulator) {
+		App.simulator = simulator;
 	}
 }

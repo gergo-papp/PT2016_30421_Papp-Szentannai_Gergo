@@ -10,8 +10,6 @@ public class Queue implements Runnable {
 	
 	private boolean active;
 
-
-
 	private BlockingQueue<Client> clientQueue;
 	private AtomicInteger waitingTime;
 	
@@ -20,7 +18,9 @@ public class Queue implements Runnable {
 	 * @param queueId
 	 */
 	public Queue(){
-		setClientQueue(new LinkedBlockingQueue<Client>());
+		System.out.println("Queue created");
+		waitingTime = new AtomicInteger();
+		clientQueue = new LinkedBlockingQueue<Client>();
 		waitingTime.set(0);
 		setActive(true);
 	}
@@ -39,6 +39,7 @@ public class Queue implements Runnable {
 				
 				// get element
 				Client client = clientQueue.take();
+				System.out.println(this.toString() + client.toString());
 				// sleep for elements processing time
 				Thread.sleep(client.getServiceTime());
 				// update waitingtime
@@ -75,8 +76,8 @@ public class Queue implements Runnable {
 		this.active = active;
 	}
 
-	public AtomicInteger getWaitingTime() {
-		return waitingTime;
+	public int getWaitingTime() {
+		return waitingTime.intValue();
 	}
 
 }
