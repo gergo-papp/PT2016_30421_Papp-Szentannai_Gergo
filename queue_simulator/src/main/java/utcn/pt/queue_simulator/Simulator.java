@@ -74,10 +74,7 @@ public class Simulator implements Runnable {
 
 		while (currentTime < simulationEndTime || queuesNotEmpty()) {
 
-			if (frame != null) // do this only if the frame is already
-				// initialized. This should be the general case.
-				frame.displayCurrentTime(currentTime);
-
+			frame.displayCurrentTime(currentTime);
 			System.out.print(currentTime + ", ");
 
 			setClientSpawnRate();
@@ -87,8 +84,13 @@ public class Simulator implements Runnable {
 
 			if (clientSpawnRate != 0) {
 				if (currentTime % clientSpawnRate == 0) {
+
+					// Generate new client:
 					Client client = clientGenerator.generateClient();
+
+					// Dispatch client to a queue:
 					clientScheduler.dispatchClientToQueue(client, currentTime);
+
 				}
 			}
 
@@ -105,6 +107,7 @@ public class Simulator implements Runnable {
 			currentTime++;
 		}
 
+		clientScheduler.stopQueues();
 		// Display the statistics:
 		System.out.println("Final statistics:");
 		StatisticsHandler.displayStatistics();

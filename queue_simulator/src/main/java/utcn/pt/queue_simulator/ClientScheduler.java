@@ -12,7 +12,6 @@ public class ClientScheduler {
 	 */
 	private int nrOfQueues;
 	public StatisticsHandler statisticsHandler;
-
 	/**
 	 * Stores each queue. Each queue has to be instantiated and then run in a
 	 * thread.
@@ -33,6 +32,7 @@ public class ClientScheduler {
 			System.out.println(queues.get(i).toString());
 		}
 		System.out.println(this);
+
 	}
 
 	/**
@@ -66,11 +66,11 @@ public class ClientScheduler {
 		return shortestQueueIndex;
 	}
 
-	public int getNrOfQueues() {
+	private int getNrOfQueues() {
 		return nrOfQueues;
 	}
 
-	public void setNrOfQueues(int nrOfQueues) {
+	private void setNrOfQueues(int nrOfQueues) {
 		this.nrOfQueues = nrOfQueues;
 	}
 
@@ -88,5 +88,11 @@ public class ClientScheduler {
 			}
 		}
 		return isActive;
+	}
+
+	protected void stopQueues() {
+		for (int i = 0; i < getNrOfQueues(); i++) {
+			queues.get(i).setActive(false);
+		}
 	}
 }

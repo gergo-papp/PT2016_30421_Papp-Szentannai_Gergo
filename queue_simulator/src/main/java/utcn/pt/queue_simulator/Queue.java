@@ -35,12 +35,16 @@ public class Queue implements Runnable {
 	 * @param queueId
 	 */
 	public Queue(int queueId) {
+		
 		System.out.println("Queue created");
 		setQueueId(queueId);
+		
 		waitingTime = new AtomicInteger();
 		clientQueue = new LinkedBlockingQueue<Client>();
 		waitingTime.set(0);
+		
 		setActive(true);
+		
 	}
 
 	/**
@@ -50,14 +54,15 @@ public class Queue implements Runnable {
 	 * @param client
 	 */
 	public void addClient(Client client) {
+		
 		clientQueue.add(client);
 		waitingTime.addAndGet(client.getServiceTime());
 
 		updateJList(getQueueId());
 		
-
 	}
 
+	@SuppressWarnings("deprecation")
 	public void run() {
 
 		// For this implementation, isActive() always returns true.
@@ -83,6 +88,9 @@ public class Queue implements Runnable {
 				e.printStackTrace();
 			}
 		}
+		
+		System.out.println("Exiting thread");
+
 		// end run()
 	}
 
@@ -106,19 +114,12 @@ public class Queue implements Runnable {
 		return "Queue [queueId=" + queueId + "]";
 	}
 
-	public BlockingQueue<Client> getClientQueue() {
-		return clientQueue;
-	}
-
-	public void setClientQueue(BlockingQueue<Client> clientQueue) {
-		this.clientQueue = clientQueue;
-	}
 
 	public boolean isActive() {
 		return active;
 	}
 
-	public void setActive(boolean active) {
+	protected void setActive(boolean active) {
 		this.active = active;
 	}
 
@@ -126,19 +127,15 @@ public class Queue implements Runnable {
 		return waitingTime.intValue();
 	}
 
-	public void addWaintingTime(int delta) {
-		waitingTime.addAndGet(delta);
-	}
-
 	public int getQueueId() {
 		return queueId;
 	}
 
-	public void setQueueId(int queueId) {
+	private void setQueueId(int queueId) {
 		this.queueId = queueId;
 	}
 
-	public boolean isNotEmpty() {
+	protected boolean isNotEmpty() {
 		return !clientQueue.isEmpty();
 	}
 

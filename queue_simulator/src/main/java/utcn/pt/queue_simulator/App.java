@@ -12,9 +12,7 @@ public class App {
 
 	@SuppressWarnings("unused")
 	private static Environment environment;
-
 	private static Simulator simulator;
-
 	private static Thread simulationThread;
 
 	public static void main(String[] args) {
@@ -31,7 +29,7 @@ public class App {
 	}
 
 	private static void startSimulation() {
-		
+
 		simulationThread = new Thread(simulator);
 		simulationThread.setPriority(Thread.MAX_PRIORITY);
 		simulationThread.setName("Simulator Thread");
