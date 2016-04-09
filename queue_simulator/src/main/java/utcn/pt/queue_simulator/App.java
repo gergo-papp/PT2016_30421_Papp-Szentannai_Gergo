@@ -4,39 +4,39 @@ import utcn.pt.queue_simulator.util.io.Environment;
 import utcn.pt.queue_simulator.Simulator;
 
 /**
- * Entry point of the application
+ * Entry point of the application. Sets the environment and instantiates a
+ * Simulator.
  *
  */
 public class App {
 
+	@SuppressWarnings("unused")
 	private static Environment environment;
+
 	private static Simulator simulator;
+
+	private static Thread simulationThread;
 
 	public static void main(String[] args) {
 
-		System.out.println("App started");
-		
 		// Set the environment variables:
-		setEnvironment(new Environment());
-		setSimulator(new Simulator());
+		environment = new Environment();
+
+		// Create a simulator (controller of the application):
+		simulator = new Simulator();
+
+		// Start the controller in a new thread:
+		startSimulation();
+
+	}
+
+	private static void startSimulation() {
 		
-		new Thread(getSimulator()).start();
+		simulationThread = new Thread(simulator);
+		simulationThread.setPriority(Thread.MAX_PRIORITY);
+		simulationThread.setName("Simulator Thread");
+		simulationThread.start();
 
 	}
 
-	public Environment getEnvironment() {
-		return environment;
-	}
-
-	public static void setEnvironment(Environment environment) {
-		App.environment = environment;
-	}
-
-	public static Simulator getSimulator() {
-		return simulator;
-	}
-
-	public static void setSimulator(Simulator simulator) {
-		App.simulator = simulator;
-	}
 }

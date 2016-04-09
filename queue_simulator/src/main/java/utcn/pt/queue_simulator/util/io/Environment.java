@@ -39,6 +39,8 @@ public final class Environment {
 	 */
 	private static int simulationEndTime;
 
+	private static int simulationSpeed = 100;
+
 	public Environment() {
 		try {
 			setEnvironment();
@@ -46,7 +48,7 @@ public final class Environment {
 			System.out.println("Could not read cnfiguration file");
 			e.printStackTrace();
 		}
-		System.out.println(this.toString());
+		System.out.println(this);
 	}
 
 	private void setEnvironment() throws ConfigFileReadException {
@@ -128,6 +130,24 @@ public final class Environment {
 
 	private void setSimulationEndTime(int simulationEndTime) {
 		Environment.simulationEndTime = simulationEndTime;
+	}
+
+	public static int getSimulationSpeed() {
+		// TODO Auto-generated method stub
+		return simulationSpeed;
+	}
+
+	public static void setSimulationSpeed(int simulationSpeed) {
+		if (simulationSpeed < 1) {
+			Environment.simulationSpeed = 1;
+		} else {
+			Environment.simulationSpeed = simulationSpeed;
+		}
+	}
+
+	public static void modifySimulationSpeed(int delta) {
+		setSimulationSpeed(getSimulationSpeed() + delta);
+
 	}
 
 }

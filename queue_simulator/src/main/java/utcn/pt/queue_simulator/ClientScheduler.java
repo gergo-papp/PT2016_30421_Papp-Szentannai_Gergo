@@ -3,28 +3,36 @@ package utcn.pt.queue_simulator;
 import java.util.ArrayList;
 
 import utcn.pt.queue_simulator.client.Client;
-import utcn.pt.queue_simulator.queue.Queue;
+import utcn.pt.queue_simulator.util.statistics.StatisticsHandler;
 
 public class ClientScheduler {
 
+	/**
+	 * The number of queues (specified in Environment)
+	 */
 	private int nrOfQueues;
+	public StatisticsHandler statisticsHandler;
+
+	/**
+	 * Stores each queue. Each queue has to be instantiated and then run in a
+	 * thread.
+	 */
 	private ArrayList<Queue> queues;
 
 	public ClientScheduler(int nrOfQueues) {
-		
-		System.out.println("Client Scheduler initialized. Number of queues: " + nrOfQueues);
 
 		this.setNrOfQueues(nrOfQueues);
 
 		queues = new ArrayList<Queue>();
+		statisticsHandler = new StatisticsHandler(nrOfQueues);
 
-		System.out.println(queues.toString());
-		
+		// Instantiate queues and start them in separate threads:
 		for (int i = 0; i < getNrOfQueues(); i++) {
-			queues.add(new Queue());
+			queues.add(new Queue(i));
 			new Thread(queues.get(i)).start();
 			System.out.println(queues.get(i).toString());
 		}
+		System.out.println(this);
 	}
 
 	/**
@@ -32,20 +40,30 @@ public class ClientScheduler {
 	 * 
 	 * @param client
 	 */
-	public void dispatchClientToQueue(Client client) {
+	public void dispatchClientToQueue(Client client, int currentTime) {
+
 		int shortestQueueIndex = getShortestQueueIndex();
-		System.out.println("Shortest queue time:" + shortestQueueIndex);
+		StatisticsHandler.addClientWaitingTime(queues.get(shortestQueueIndex).getWaitingTime(), currentTime);
+
 		queues.get(shortestQueueIndex).addClient(client);
+
 	}
 
+	/**
+	 * Return the index of the shortest queue
+	 * 
+	 * @return shortestQueueIndex
+	 */
 	private int getShortestQueueIndex() {
-		int shortestQueueIndex = Integer.MAX_VALUE;
+		int shortestQueueIndex = 0;
+		int shortestQueue = Integer.MAX_VALUE;
 		for (int i = 0; i < getNrOfQueues(); i++) {
-			if (shortestQueueIndex > queues.get(i).getWaitingTime()) {
-				shortestQueueIndex = queues.get(i).getWaitingTime();
+			if (shortestQueue > queues.get(i).getWaitingTime()) {
+				shortestQueue = queues.get(i).getWaitingTime();
+				shortestQueueIndex = i;
 			}
 		}
-		return 0;
+		return shortestQueueIndex;
 	}
 
 	public int getNrOfQueues() {
@@ -54,5 +72,21 @@ public class ClientScheduler {
 
 	public void setNrOfQueues(int nrOfQueues) {
 		this.nrOfQueues = nrOfQueues;
+	}
+
+	@Override
+	public String toString() {
+		return "ClientScheduler [nrOfQueues=" + nrOfQueues + ", queues=" + queues + "]";
+	}
+
+	public boolean areQueuesEmpty() {
+		boolean isActive = false;
+		int i = 0;
+		while (!isActive && i < getNrOfQueues()) {
+			if (queues.get(i).isNotEmpty()) {
+				isActive = true;
+			}
+		}
+		return isActive;
 	}
 }

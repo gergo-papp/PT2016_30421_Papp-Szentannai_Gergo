@@ -34,7 +34,7 @@ public class Client {
 
 	@Override
 	public String toString() {
-		return "Client [clientId=" + clientId + ", serviceTime=" + serviceTime + "]";
+		return clientId + ": " + serviceTime + "min";
 	}
 
 	public int getClientId() {

@@ -1,3 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<environment minWaitingTime="15" maxWaitingTime="300" nrOfQueues="10" simulationStartTime="450" simulationEndTime="1290">
+<environment minWaitingTime="5" maxWaitingTime="20" nrOfQueues="5" simulationStartTime="450" simulationEndTime="1290">
 </environment>

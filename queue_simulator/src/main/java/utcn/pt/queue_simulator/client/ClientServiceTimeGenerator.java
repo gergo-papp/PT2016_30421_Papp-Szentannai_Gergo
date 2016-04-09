@@ -59,4 +59,10 @@ public final class ClientServiceTimeGenerator {
 		this.maxWaitingTime = maxWaitingTime;
 	}
 
+	@Override
+	public String toString() {
+		return "ClientServiceTimeGenerator [minWaitingTime=" + minWaitingTime + ", maxWaitingTime=" + maxWaitingTime
+				+ ", random=" + random + "]";
+	}
+
 }

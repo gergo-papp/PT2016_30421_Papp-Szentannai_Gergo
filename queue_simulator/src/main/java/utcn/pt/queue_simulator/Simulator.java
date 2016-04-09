@@ -1,48 +1,160 @@
 package utcn.pt.queue_simulator;
 
+import java.util.Random;
+
+import javax.swing.SwingUtilities;
+
 import utcn.pt.queue_simulator.client.Client;
 import utcn.pt.queue_simulator.client.ClientGenerator;
+import utcn.pt.queue_simulator.gui.MainFrame;
 import utcn.pt.queue_simulator.util.io.Environment;
+import utcn.pt.queue_simulator.util.statistics.StatisticsHandler;
 
-public class Simulator implements Runnable{
-	
+/**
+ * Starts the ClientScheduler and initializes the Frame. Also asks the
+ * ClientScheduler to randomly generate Clients based on the current time.
+ * 
+ * @author gergo_000
+ *
+ */
+public class Simulator implements Runnable {
+
 	private ClientScheduler clientScheduler;
 	private ClientGenerator clientGenerator;
 	private int currentTime;
-	//private Frame frame;
-	
-	public Simulator(){
-		System.out.println("Simulator initialized");
-		setClientGenerator(new ClientGenerator());
+	private int clientSpawnRate;
+	private Random random = new Random();
+	private MainFrame frame;
+
+	public Simulator() {
+
+		// Set start time of the simulation:
 		setCurrentTime(Environment.getSimulationStartTime());
+
+		// Initialize ClientGenerator:
+		setClientGenerator(new ClientGenerator());
+
+		// Initialize ClientScheduler:
 		setClientScheduler(new ClientScheduler(Environment.getNrOfQueues()));
+
+		// Initialize GUI:
+		SwingUtilities.invokeLater(new Runnable() {
+
+			public void run() {
+				frame = new MainFrame("Client queues");
+			}
+
+		});
+
+		// Wait for the initialization of all GUI components:
+		try {
+
+			System.out.println("Initializing all GUI components...");
+			Thread.sleep(1500);
+
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println(this);
 	}
 
+	/**
+	 * Advances time and generates new clients with a specified frequency.
+	 */
 	public void run() {
-		
+
 		System.out.println("Simulation thread started");
 		int simulationEndTime = Environment.getSimulationEndTime();
-		
-		while(currentTime < simulationEndTime){
-			
-			Client client = clientGenerator.generateClient();
-			clientScheduler.dispatchClientToQueue(client);
-			
-			
+
+		// Simulate time:
+
+		// The simulation stops when the final time is reached and all queues
+		// are empty. The simulator waits for unfinished tasks to complete.
+
+		while (currentTime < simulationEndTime || queuesNotEmpty()) {
+
+			if (frame != null) // do this only if the frame is already
+				// initialized. This should be the general case.
+				frame.displayCurrentTime(currentTime);
+
+			System.out.print(currentTime + ", ");
+
+			setClientSpawnRate();
+
+			// Create new client with the specified frequency of
+			// clientSpawnRate:
+
+			if (clientSpawnRate != 0) {
+				if (currentTime % clientSpawnRate == 0) {
+					Client client = clientGenerator.generateClient();
+					clientScheduler.dispatchClientToQueue(client, currentTime);
+				}
+			}
+
 			try {
-				Thread.sleep(1000);
+
+				// Sleep to simulate the real time:
+				Thread.sleep(Environment.getSimulationSpeed());
+
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
+			// Increase current time (specified in minutes):
 			currentTime++;
-			
 		}
+
+		// Display the statistics:
+		System.out.println("Final statistics:");
+		StatisticsHandler.displayStatistics();
 	}
 
-	
-	
+	/**
+	 * Set the spawn rate of the clients. The new value will depend on the
+	 * current time and some random values for simulating real-life scenarios.
+	 */
+	private void setClientSpawnRate() {
+
+		if (currentTime < Environment.getSimulationStartTime() + 90)
+			// first 90 minutes : 5 minutes +- 5
+			clientSpawnRate = 5 + random.nextInt(10) - 5;
+
+		else if (currentTime < Environment.getSimulationStartTime() + 180)
+			// 90-180 minutes : 2 minutes +- 1
+			clientSpawnRate = 2 + random.nextInt(2) - 1;
+
+		else if (currentTime < Environment.getSimulationStartTime() + 300)
+			// 180-300 minutes : 3 minutes +- 1
+			clientSpawnRate = 3 + random.nextInt(2) - 1;
+
+		else if (currentTime < Environment.getSimulationStartTime() + 480)
+			// 300-480 minutes : 10 minutes +- 5
+			clientSpawnRate = 10 + random.nextInt(10) - 5;
+
+		else if (currentTime < Environment.getSimulationStartTime() + 600)
+			// 480-600 minutes : 8 minutes +- 4
+			clientSpawnRate = 8 + random.nextInt(8) - 4;
+
+		else if (currentTime > Environment.getSimulationEndTime())
+			clientSpawnRate = 0;
+
+		else
+			clientSpawnRate = 2;
+
+	}
+
+	private boolean queuesNotEmpty() {
+		return clientScheduler.areQueuesEmpty();
+
+	}
+
+	@Override
+	public String toString() {
+		return "Simulator [clientScheduler=" + clientScheduler + ", clientGenerator=" + clientGenerator
+				+ ", currentTime=" + currentTime + "]";
+	}
+
 	public ClientScheduler getClientScheduler() {
 		return clientScheduler;
 	}

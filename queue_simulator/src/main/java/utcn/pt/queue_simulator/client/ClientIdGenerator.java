@@ -13,4 +13,10 @@ public final class ClientIdGenerator {
 		return uniqueId;
 	}
 
+	@Override
+	public String toString() {
+		return "ClientIdGenerator [uniqueId=" + uniqueId + "]";
+	}
+
+	
 }

@@ -25,7 +25,6 @@ public final class ClientGenerator {
 	private ClientServiceTimeGenerator clientServiceTimeGenerator;
 
 	public ClientGenerator() {
-		System.out.println("Client generator initialized");
 		
 		setMinWaitingTime(Environment.getMinWaitingTime());
 		setMaxWaitingTime(Environment.getMaxWaitingTime());
@@ -34,6 +33,7 @@ public final class ClientGenerator {
 		clientIdGenerator = new ClientIdGenerator();
 		clientServiceTimeGenerator = new ClientServiceTimeGenerator(getMinWaitingTime(), getMaxWaitingTime());
 		
+		System.out.println(this);
 	}
 	
 
@@ -69,6 +69,15 @@ public final class ClientGenerator {
 
 	public void setNrOfQueues(int nrOfQueues) {
 		this.nrOfQueues = nrOfQueues;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "ClientGenerator [minWaitingTime=" + minWaitingTime + ", maxWaitingTime=" + maxWaitingTime
+				+ ", nrOfQueues=" + nrOfQueues + ", clientIdGenerator=" + clientIdGenerator
+				+ ", clientServiceTimeGenerator=" + clientServiceTimeGenerator + "]";
 	}
 
 }
