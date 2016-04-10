@@ -16,6 +16,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JViewport;
 
@@ -45,6 +46,9 @@ public class MainFrame extends JFrame {
 	private Dimension textDimension = new Dimension(10, 100);
 
 	private JScrollBar speedScroller;
+
+	private static JScrollPane logPane;
+	private static JTextArea logText;
 
 	public MainFrame(String title) {
 		super(title);
@@ -76,6 +80,7 @@ public class MainFrame extends JFrame {
 		initNorth();
 		initWest();
 		initCenter();
+		initSouth();
 
 		System.out.println("Main Panel added");
 
@@ -146,6 +151,27 @@ public class MainFrame extends JFrame {
 		panel.add(westPanel, BorderLayout.WEST);
 	}
 
+	private void initSouth() {
+		logText = new JTextArea();
+
+		logText.setAutoscrolls(true);
+		logText.setRows(10);
+		logText.append("Logging\n");
+
+		logPane = new JScrollPane(logText);
+		logPane.setAutoscrolls(true);
+
+		panel.add(logPane, BorderLayout.SOUTH);
+
+	}
+
+	public void displayCurrentTime(int currentTime) {
+		// TODO Auto-generated method stub
+		String h = new String(Integer.toString(currentTime / 60));
+		String m = new String(Integer.toString(currentTime % 60));
+		timeField.setText(h + ":" + m);
+	}
+
 	public static void displayData(Client[] client, int queueId, int waitingTime) {
 
 		// setup
@@ -165,15 +191,14 @@ public class MainFrame extends JFrame {
 
 	}
 
-	public JPanel getPanel() {
-		return panel;
+	public static void printLogMessage(String message) {
+		logText.append(message);
+		logPane.getVerticalScrollBar().setValue(logPane.getVerticalScrollBar().getMaximum());
+		;
 	}
 
-	public void displayCurrentTime(int currentTime) {
-		// TODO Auto-generated method stub
-		String h = new String(Integer.toString(currentTime / 60));
-		String m = new String(Integer.toString(currentTime % 60));
-		timeField.setText(h + ":" + m);
+	public JPanel getPanel() {
+		return panel;
 	}
 
 	@Override

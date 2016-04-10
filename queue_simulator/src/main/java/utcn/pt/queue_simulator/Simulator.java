@@ -56,6 +56,8 @@ public class Simulator implements Runnable {
 			e.printStackTrace();
 		}
 
+		MainFrame.printLogMessage("GUI components initialized...\n");
+		MainFrame.printLogMessage(this.toString());
 		System.out.println(this);
 	}
 
@@ -65,6 +67,7 @@ public class Simulator implements Runnable {
 	public void run() {
 
 		System.out.println("Simulation thread started");
+
 		int simulationEndTime = Environment.getSimulationEndTime();
 
 		// Simulate time:
@@ -87,6 +90,8 @@ public class Simulator implements Runnable {
 
 					// Generate new client:
 					Client client = clientGenerator.generateClient();
+					MainFrame.printLogMessage(
+							"Client generated at " + currentTime / 60 + ":" + currentTime % 60 + ". " + client + "\n");
 
 					// Dispatch client to a queue:
 					clientScheduler.dispatchClientToQueue(client, currentTime);
@@ -107,6 +112,7 @@ public class Simulator implements Runnable {
 			currentTime++;
 		}
 
+		MainFrame.printLogMessage("Final statistics:");
 		clientScheduler.stopQueues();
 		// Display the statistics:
 		System.out.println("Final statistics:");

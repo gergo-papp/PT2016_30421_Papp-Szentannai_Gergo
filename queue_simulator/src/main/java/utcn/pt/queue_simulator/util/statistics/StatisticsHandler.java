@@ -1,5 +1,7 @@
 package utcn.pt.queue_simulator.util.statistics;
 
+import utcn.pt.queue_simulator.gui.MainFrame;
+
 public class StatisticsHandler {
 
 	private static double avgWaitingTime;
@@ -32,6 +34,7 @@ public class StatisticsHandler {
 				/ (double) ((double) nrOfClients + 1);
 		nrOfClients++;
 		System.out.println("Average waiting time: " + avgWaitingTime);
+		MainFrame.printLogMessage("Average waiting time: " + avgWaitingTime + "\n");
 		System.out.println("Number of clients: " + nrOfClients);
 
 		if (avgWaitingTime > maxWaitingTime) {

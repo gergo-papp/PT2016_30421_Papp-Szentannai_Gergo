@@ -62,7 +62,6 @@ public class Queue implements Runnable {
 		
 	}
 
-	@SuppressWarnings("deprecation")
 	public void run() {
 
 		// For this implementation, isActive() always returns true.
