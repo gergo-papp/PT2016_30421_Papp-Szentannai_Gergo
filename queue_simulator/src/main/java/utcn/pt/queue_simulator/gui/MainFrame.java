@@ -83,6 +83,8 @@ public class MainFrame extends JFrame {
 		initSouth();
 
 		System.out.println("Main Panel added");
+		printLogMessage("Application initialized\n");
+		printLogMessage("Starting simulation...\n");
 
 	}
 
@@ -134,6 +136,7 @@ public class MainFrame extends JFrame {
 		speedScroller.getModel().setMinimum(1);
 		speedScroller.getModel().setMaximum(200);
 		speedScroller.getModel().setValue(100);
+
 		speedScroller.addAdjustmentListener(new AdjustmentListener() {
 
 			public void adjustmentValueChanged(AdjustmentEvent arg0) {
@@ -155,8 +158,8 @@ public class MainFrame extends JFrame {
 		logText = new JTextArea();
 
 		logText.setAutoscrolls(true);
-		logText.setRows(10);
-		logText.append("Logging\n");
+		logText.setRows(15);
+		logText.append(" -- Logging --\n\n");
 
 		logPane = new JScrollPane(logText);
 		logPane.setAutoscrolls(true);

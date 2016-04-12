@@ -2,6 +2,7 @@ package utcn.pt.queue_simulator;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import utcn.pt.queue_simulator.client.Client;
@@ -35,16 +36,16 @@ public class Queue implements Runnable {
 	 * @param queueId
 	 */
 	public Queue(int queueId) {
-		
+
 		System.out.println("Queue created");
 		setQueueId(queueId);
-		
+
 		waitingTime = new AtomicInteger();
 		clientQueue = new LinkedBlockingQueue<Client>();
 		waitingTime.set(0);
-		
+
 		setActive(true);
-		
+
 	}
 
 	/**
@@ -54,12 +55,12 @@ public class Queue implements Runnable {
 	 * @param client
 	 */
 	public void addClient(Client client) {
-		
+
 		clientQueue.add(client);
 		waitingTime.addAndGet(client.getServiceTime());
 
 		updateJList(getQueueId());
-		
+
 	}
 
 	public void run() {
@@ -67,27 +68,41 @@ public class Queue implements Runnable {
 		// For this implementation, isActive() always returns true.
 		while (isActive()) {
 
+			// Get next element:
+			// The task will automatically be suspended until the queue
+			// becomes non-empty
+			Client client;
 			try {
-
-				// Get next element:
-				// The task will automatically be suspended until the queue
-				// becomes non-empty
-				Client client = clientQueue.take();
-
-				// Sleep for elements processing time
-				Thread.sleep(client.getServiceTime() * Environment.getSimulationSpeed());
-
-				// Decrease waiting time
-				waitingTime.addAndGet(-client.getServiceTime());
-
-				// Update the JList:
-				updateJList(getQueueId());
-
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+				client = clientQueue.poll(10, TimeUnit.SECONDS);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				//e1.printStackTrace();
+				//Thread.currentThread().interrupt();
+				active = false;
+				client = null;
 			}
+
+			if (client != null) {
+				// Sleep for elements processing time
+				try {
+					Thread.sleep(client.getServiceTime() * Environment.getSimulationSpeed());
+
+					// Decrease waiting time
+					waitingTime.addAndGet(-client.getServiceTime());
+
+					// Update the JList:
+					updateJList(getQueueId());
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+			//else
+				//Thread.currentThread().interrupt();
+
 		}
-		
+
 		System.out.println("Exiting thread");
 
 		// end run()
@@ -112,7 +127,6 @@ public class Queue implements Runnable {
 	public String toString() {
 		return "Queue [queueId=" + queueId + "]";
 	}
-
 
 	public boolean isActive() {
 		return active;

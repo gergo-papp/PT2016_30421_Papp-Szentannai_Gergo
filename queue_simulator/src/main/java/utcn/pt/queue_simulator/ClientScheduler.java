@@ -3,6 +3,7 @@ package utcn.pt.queue_simulator;
 import java.util.ArrayList;
 
 import utcn.pt.queue_simulator.client.Client;
+import utcn.pt.queue_simulator.gui.MainFrame;
 import utcn.pt.queue_simulator.util.statistics.StatisticsHandler;
 
 public class ClientScheduler {
@@ -17,22 +18,36 @@ public class ClientScheduler {
 	 * thread.
 	 */
 	private ArrayList<Queue> queues;
+	private Thread[] queueThreads;
 
 	public ClientScheduler(int nrOfQueues) {
 
 		this.setNrOfQueues(nrOfQueues);
+		
 
 		queues = new ArrayList<Queue>();
 		statisticsHandler = new StatisticsHandler(nrOfQueues);
+		queueThreads = new Thread[nrOfQueues];
 
 		// Instantiate queues and start them in separate threads:
 		for (int i = 0; i < getNrOfQueues(); i++) {
 			queues.add(new Queue(i));
-			new Thread(queues.get(i)).start();
+			queueThreads[i] = new Thread(queues.get(i));
+			queueThreads[i].setDaemon(true);
+			queueThreads[i].start();
+			//new Thread(queues.get(i)).start();
+			
 			System.out.println(queues.get(i).toString());
 		}
 		System.out.println(this);
 
+	}
+	
+	protected void stopQueueThreads(){
+		MainFrame.printLogMessage("Stopping queues...\n");
+		for (int i = 0; i < getNrOfQueues(); i++) {
+			queueThreads[i].interrupt();
+		}
 	}
 
 	/**

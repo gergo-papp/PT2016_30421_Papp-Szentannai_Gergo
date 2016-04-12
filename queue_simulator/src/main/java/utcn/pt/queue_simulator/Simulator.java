@@ -49,15 +49,14 @@ public class Simulator implements Runnable {
 		// Wait for the initialization of all GUI components:
 		try {
 
-			System.out.println("Initializing all GUI components...");
-			Thread.sleep(1500);
+			Thread.sleep(500);
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 
-		MainFrame.printLogMessage("GUI components initialized...\n");
-		MainFrame.printLogMessage(this.toString());
+		MainFrame.printLogMessage("\nSimulation started:\n\n\n");
+		MainFrame.printLogMessage(this.toString() + "\n\n");
 		System.out.println(this);
 	}
 
@@ -77,30 +76,32 @@ public class Simulator implements Runnable {
 
 		while (currentTime < simulationEndTime || queuesNotEmpty()) {
 
+			// Update GUI components:
 			frame.displayCurrentTime(currentTime);
-			System.out.print(currentTime + ", ");
+			MainFrame.printLogMessage("Time: " + currentTime / 60 + ":" + currentTime % 60 + "    ");
 
 			setClientSpawnRate();
 
 			// Create new client with the specified frequency of
 			// clientSpawnRate:
-
 			if (clientSpawnRate != 0) {
 				if (currentTime % clientSpawnRate == 0) {
 
 					// Generate new client:
 					Client client = clientGenerator.generateClient();
-					MainFrame.printLogMessage(
-							"Client generated at " + currentTime / 60 + ":" + currentTime % 60 + ". " + client + "\n");
+					MainFrame.printLogMessage("Client generated  --  Client: " + client + "\n");
 
 					// Dispatch client to a queue:
 					clientScheduler.dispatchClientToQueue(client, currentTime);
 
+				} else {
+					MainFrame.printLogMessage("\n");
 				}
+			} else {
+				MainFrame.printLogMessage("\n");
 			}
 
 			try {
-
 				// Sleep to simulate the real time:
 				Thread.sleep(Environment.getSimulationSpeed());
 
@@ -110,13 +111,23 @@ public class Simulator implements Runnable {
 
 			// Increase current time (specified in minutes):
 			currentTime++;
+
 		}
 
-		MainFrame.printLogMessage("Final statistics:");
+		/*
+		 * ?????????????????????????????????????????????????????????????????
+		 * THIS CODE IS NEVER REACHED, ALTHOUGH THE WHILE CONDITION IS FALSE
+		 * ?????????????????????????????????????????????????????????????????
+		 */
 		clientScheduler.stopQueues();
+		clientScheduler.stopQueueThreads();
+
+		MainFrame.printLogMessage("\n\n -- Final statistics --\n");
+
 		// Display the statistics:
 		System.out.println("Final statistics:");
 		StatisticsHandler.displayStatistics();
+
 	}
 
 	/**

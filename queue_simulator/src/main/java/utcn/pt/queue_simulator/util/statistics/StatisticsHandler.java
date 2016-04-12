@@ -19,9 +19,10 @@ public class StatisticsHandler {
 
 	public static void displayStatistics() {
 
-		System.out.println("Average waiting time: " + avgWaitingTime);
-		System.out.println(
+		MainFrame.printLogMessage("Average waiting time: " + avgWaitingTime);
+		MainFrame.printLogMessage(
 				"Peak waiting time: " + maxWaitingTime + ", Occured at " + peakTime / 60 + ":" + peakTime % 60);
+
 	}
 
 	/**
@@ -34,13 +35,19 @@ public class StatisticsHandler {
 				/ (double) ((double) nrOfClients + 1);
 		nrOfClients++;
 		System.out.println("Average waiting time: " + avgWaitingTime);
-		MainFrame.printLogMessage("Average waiting time: " + avgWaitingTime + "\n");
+		// MainFrame.printLogMessage("Average waiting time: " + avgWaitingTime +
+		// "\n");
 		System.out.println("Number of clients: " + nrOfClients);
 
-		if (avgWaitingTime > maxWaitingTime) {
-			maxWaitingTime = avgWaitingTime;
+		if (waitingTime > maxWaitingTime) {
+			maxWaitingTime = waitingTime;
 			peakTime = currentTime;
+			System.out.println("Peak waiting time: " + maxWaitingTime + ", Occured at " + peakTime / 60 + ":"
+					+ peakTime % 60 + "\n");
+			MainFrame.printLogMessage("Peak waiting time: " + maxWaitingTime + ", Occured at " + peakTime / 60 + ":"
+					+ peakTime % 60 + "\n");
 		}
+
 	}
 
 }
