@@ -101,6 +101,7 @@ public class ClientScheduler {
 			if (queues.get(i).isNotEmpty()) {
 				isActive = true;
 			}
+			i++;
 		}
 		return isActive;
 	}
