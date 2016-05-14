@@ -3,9 +3,32 @@ package banking;
 import java.util.Observable;
 import java.util.Observer;
 
+import banking.accounts.Account;
+
 public class Person implements Observer {
-	int personId;
-	String name;
+	private int personId;
+	private String name;
+
+	public Person(String string, int i) {
+		setName(string);
+		setPersonId(i);
+	}
+
+	public int getPersonId() {
+		return personId;
+	}
+
+	public void setPersonId(int personId) {
+		this.personId = personId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	@Override
 	public int hashCode() {
@@ -35,11 +58,11 @@ public class Person implements Observer {
 	}
 
 	@Override
-	public void update(Observable observable, Object person) {
+	public void update(Observable observable, Object arg) {
 		// TODO Auto-generated method stub
-		Account account = (Account)observable;
-		
-		System.out.println("Account updated: " + (Person)person + account);
+		Account account = (Account) observable;
+
+		System.out.println("NOTIFICATION: " + this + " " + account);
 	}
 
 }

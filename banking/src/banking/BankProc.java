@@ -1,5 +1,7 @@
 package banking;
 
+import banking.accounts.Account;
+
 public interface BankProc {
 
 	/**
@@ -8,7 +10,7 @@ public interface BankProc {
 	 */
 	void addAccountForPerson(Person person, Account account);
 	
-	void depositMoney(int accId, double sum);
+	void depositMoney(Account account, double sum);
 
 	/**
 	 * Returns true if the Bank is in a good state. If the data in the bank is

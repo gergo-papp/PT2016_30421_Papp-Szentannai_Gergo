@@ -1,18 +1,19 @@
 package banking;
 
+
+
+import banking.test.Test;
+
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		BankProc bank = new Bank();
 		
-		Person person = new Person();
+		System.out.println("Starting tests\n\n");
 
-		Account account = new SpendingAccount(6161);
+		new Test(1);
+		new Test(2);
 
-		bank.addAccountForPerson(person, account);
-		
-		
+		System.out.println("\n\nAll tests have finished");
 	}
 
 }
