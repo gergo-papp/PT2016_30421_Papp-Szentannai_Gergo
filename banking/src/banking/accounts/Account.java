@@ -26,6 +26,9 @@ public abstract class Account extends Observable {
 		return result;
 	}
 
+	/**
+	 * Compares using the accountId field.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

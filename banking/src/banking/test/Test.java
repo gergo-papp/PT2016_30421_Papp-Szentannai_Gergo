@@ -48,7 +48,7 @@ public class Test {
 
 		bank.addAccountForPerson(person1, account11);
 		
-		bank.depositMoney(account11, 500);
+		bank.depositMoney(11, 500);
 
 		try {
 			account11.withdraw(150);
@@ -61,7 +61,7 @@ public class Test {
 			System.out.println("Transaction failed!");
 		}
 		
-		bank.depositMoney(account11, 1512.12);
+		bank.depositMoney(11, 1512.12);
 
 	}
 
@@ -77,7 +77,7 @@ public class Test {
 
 		bank.addAccountForPerson(person2, account2);
 		
-		bank.depositMoney(account2, 50000);
+		bank.depositMoney(11, 50000);
 
 		try {
 			account2.withdraw(60000);
@@ -106,7 +106,7 @@ public class Test {
 		}
 
 		
-		bank.depositMoney(account2, 1512.12);
+		bank.depositMoney(11, 1512.12);
 		
 	}
 

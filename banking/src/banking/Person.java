@@ -38,6 +38,9 @@ public class Person implements Observer {
 		return result;
 	}
 
+	/**
+	 * Compares using the personId field.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

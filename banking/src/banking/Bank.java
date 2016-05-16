@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 
 import banking.accounts.Account;
+import banking.accounts.GenericAccount;
 import banking.accounts.SpendingAccount;
+import banking.exceptions.WithdrawalException;
 
 public class Bank implements BankProc {
 
@@ -37,20 +39,41 @@ public class Bank implements BankProc {
 
 	@Override
 	public boolean isWellFormed() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
-	public void depositMoney(Account account, double sum) {
+	public void depositMoney(int personId, int accountId, double sum) {
 		
-		// Search for account
-		account.deposit(sum);
-
-		// Put money
 		
-		//
+		
+		// Search for the account
+		Iterator i = accountMap.get(new Person("", personId)).iterator();
+		
 
+
+	}
+
+	@Override
+	public void withdrawMoney(int accountId, double sum) {/*
+		try {
+			//account.withdraw(sum);
+		} catch (WithdrawalException e) {
+			System.out.println("Transaction failed!");
+		}
+		*/
+	}
+
+	@Override
+	public void removePerson(int personId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeAccount(int accountId) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
