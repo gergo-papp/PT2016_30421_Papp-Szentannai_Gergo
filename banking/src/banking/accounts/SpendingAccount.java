@@ -4,6 +4,11 @@ import banking.exceptions.NotEnoughFunds;
 
 public class SpendingAccount extends Account {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2048064505405594037L;
+
 	public SpendingAccount(int accId) {
 		super(accId);
 	}

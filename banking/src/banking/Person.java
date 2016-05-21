@@ -1,17 +1,25 @@
 package banking;
 
+import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 
 import banking.accounts.Account;
 
-public class Person implements Observer {
+public class Person implements Observer, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 754008672030391757L;
 	private int personId;
 	private String name;
+	
+	
 
 	public Person(String string, int i) {
 		setName(string);
 		setPersonId(i);
+		
 	}
 
 	public int getPersonId() {

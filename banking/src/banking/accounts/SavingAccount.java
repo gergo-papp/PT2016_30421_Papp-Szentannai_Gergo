@@ -7,9 +7,13 @@ import banking.exceptions.nrOfWithdrawalsExceeded;
 
 public class SavingAccount extends Account {
 
-	private int availableWithdrawals;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8542970466309693289L;
+	private transient int availableWithdrawals = 2;
 	private double withdrawalLimit;
-	private double dailyWithdrawal;
+	private transient double dailyWithdrawal = 0;
 
 	public SavingAccount(int accId) {
 		super(accId);

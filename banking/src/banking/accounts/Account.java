@@ -1,21 +1,27 @@
 package banking.accounts;
 
+import java.io.Serializable;
 import java.util.Observable;
 
 import banking.exceptions.WithdrawalException;
 
+public abstract class Account extends Observable implements Serializable {
 
-public abstract class Account extends Observable {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -932976978376848164L;
 	private int accountId;
 	private double balance;
 
 	public abstract void deposit(double sum);
+
 	public abstract void withdraw(double sum) throws WithdrawalException;
 
 	public Account(int accId) {
 		setAccountId(accId);
 		setBalance(0);
+		
 	}
 
 	@Override
@@ -32,8 +38,12 @@ public abstract class Account extends Observable {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (getClass().getSuperclass() != obj.getClass().getSuperclass()) {
+
+			System.out.println(getClass() + " " + obj.getClass());
 			return false;
+		}
+
 		Account other = (Account) obj;
 		if (accountId != other.accountId)
 			return false;
