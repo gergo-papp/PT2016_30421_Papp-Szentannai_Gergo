@@ -60,6 +60,9 @@ public interface BankProc {
 
 	/**
 	 * 
+	 * Check if each there are null elements and if each person has at least one
+	 * account.
+	 * 
 	 * @return true if the Bank is in a good state and false if the data in the
 	 *         bank is corrupted or damaged
 	 */

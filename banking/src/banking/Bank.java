@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import banking.accounts.Account;
 import banking.accounts.GenericAccount;
@@ -25,30 +26,7 @@ public class Bank implements BankProc, Serializable {
 
 	}
 
-	/**
-	 * Returns each pair of person-account as a Map. A person can appear
-	 * multiple times, while an account only once.
-	 * 
-	 * @return Map<Person, Account>
-	 */
-	public Map<Account, Person> getAllAccounts() {
 
-		Map<Account, Person> persAccPairs = new HashMap<Account, Person>();
-		
-		for (Map.Entry<Person, HashSet<Account>> entry : accountMap.entrySet())
-		{
-		    Iterator<Account> i = entry.getValue().iterator();
-		    
-		    while(i.hasNext()){
-		    	persAccPairs.put(i.next(), entry.getKey());
-		    	//System.out.println("[TABLE]: " + entry.getKey() + persAccPairs.get(entry.getKey()));
-		    	
-		    }
-		}
-
-		return persAccPairs;
-
-	}
 
 	@Override
 	public void addAccountForPerson(Person person, Account account) {
@@ -161,10 +139,48 @@ public class Bank implements BankProc, Serializable {
 		}
 
 	}
+	
+	/**
+	 * Returns each pair of person-account as a Map. A person can appear
+	 * multiple times, while an account only once.
+	 * 
+	 * @return Map<Person, Account>
+	 */
+	public Map<Account, Person> getAllAccounts() {
+
+		Map<Account, Person> persAccPairs = new HashMap<Account, Person>();
+		
+		for (Map.Entry<Person, HashSet<Account>> entry : accountMap.entrySet())
+		{
+		    Iterator<Account> i = entry.getValue().iterator();
+		    
+		    while(i.hasNext()){
+		    	persAccPairs.put(i.next(), entry.getKey());
+		    	//System.out.println("[TABLE]: " + entry.getKey() + persAccPairs.get(entry.getKey()));
+		    	
+		    }
+		}
+
+		return persAccPairs;
+
+	}
 
 	@Override
 	public boolean isWellFormed() {
-		// TODO Auto-generated method stub
+
+		Iterator<Entry<Person, HashSet<Account>>>  i = accountMap.entrySet().iterator();
+		
+		while (i.hasNext()){
+			Entry<Person, HashSet<Account>> entry = i.next();
+			if (entry.getKey() == null)
+				return false;
+			if (entry.getValue() == null)
+				return false;
+			if (entry.getValue().isEmpty())
+				return false;
+			
+		}
+		
 		return true;
 	}
 
